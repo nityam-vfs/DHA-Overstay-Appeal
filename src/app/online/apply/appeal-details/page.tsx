@@ -40,7 +40,7 @@ export default function AppealDetailsStep() {
               </div>
               <div>
                 <Label>
-                  Date of Port of Exit <span className="text-red-500">*</span>
+                  Date of Port Exit <span className="text-red-500">*</span>
                 </Label>
                 <Input type="date" value={w.dateOfOverstay} onChange={(e) => w.update({ dateOfOverstay: e.target.value })} />
               </div>

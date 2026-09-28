@@ -242,7 +242,7 @@ export default function ReviewWorkspacePage({ params }: { params: Promise<{ id: 
               <Field label="Port of Exit" value={application.portOfExit} />
               <Field label="Form 19 Reference" value={application.form19Reference} />
               <Field label="Overstay Reference" value={application.overstayReference} />
-              <Field label="Date of Port of Exit" value={formatDate(application.dateOfOverstay)} />
+              <Field label="Date of Port Exit" value={formatDate(application.dateOfOverstay)} />
               <Field label="Appeal Reason" value={application.appealReason} />
               <Field label="Reason Details" value={application.appealReasonOther ?? "—"} />
               <Field label="Assigned To" value={application.assignedTo ?? "Unassigned"} />
