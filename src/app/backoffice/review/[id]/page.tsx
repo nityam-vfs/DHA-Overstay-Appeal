@@ -9,11 +9,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { StatusBadge } from "@/components/status-badge";
+import { SaFlagMark } from "@/components/sa-flag-mark";
 import { useDemoStore } from "@/lib/store";
 import { getDocumentPublicUrl } from "@/lib/supabase/repo";
-import { ROLE_LABELS, type Role } from "@/lib/types";
+import { ROLE_LABELS, type Application, type AppDocument, type Role } from "@/lib/types";
 import { formatDate, formatDateTime, formatZar } from "@/lib/utils";
-import { FileText, Download, FileWarning } from "lucide-react";
+import { FileText, Download } from "lucide-react";
 
 const STAGE_FOR_ROLE: Partial<Record<Role, string>> = {
   adjudicator: "Adjudicator Review",
@@ -44,6 +45,40 @@ function downloadPlaceholder(fileName: string) {
   URL.revokeObjectURL(url);
 }
 
+/** Renders the real uploaded file when it exists in Supabase Storage, otherwise a rendered mock page so reviewers always see document content instead of an error. */
+function DocumentPreview({ doc, application }: { doc: AppDocument; application: Application }) {
+  const url = doc.storagePath ? getDocumentPublicUrl(doc.storagePath) : null;
+
+  if (url) {
+    return <iframe src={url} title={doc.fileName} className="h-[440px] w-full rounded-md border border-gray-200 bg-white" />;
+  }
+
+  return (
+    <div className="h-[440px] overflow-y-auto rounded-md border border-gray-200 bg-white p-6 shadow-inner">
+      <div className="mb-4 flex items-center gap-2 border-b border-gray-800 pb-3">
+        <SaFlagMark />
+        <div>
+          <p className="text-xs font-semibold text-gray-900">Department of Home Affairs</p>
+          <p className="text-[10px] text-gray-500">Republic of South Africa &middot; Immigration Services</p>
+        </div>
+      </div>
+      <p className="mb-1 text-[10px] uppercase tracking-wide text-gray-400">{doc.type}</p>
+      <p className="mb-4 text-sm font-semibold text-gray-900">{doc.fileName}</p>
+      <div className="space-y-2 text-xs text-gray-700">
+        <p>
+          Applicant: {application.name} {application.surname}
+        </p>
+        <p>Passport No: {application.passportNumber}</p>
+        <p>Reference Number: {application.refNumber}</p>
+        <p>Uploaded: {formatDate(doc.uploadedAt)}</p>
+      </div>
+      <p className="mt-6 text-center text-[10px] text-gray-400">
+        Mock document preview &middot; no real file bytes stored for this record.
+      </p>
+    </div>
+  );
+}
+
 export default function ReviewWorkspacePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
@@ -58,6 +93,7 @@ export default function ReviewWorkspacePage({ params }: { params: Promise<{ id: 
   const [comment, setComment] = useState("");
   const [missingDoc, setMissingDoc] = useState(MISSING_DOC_OPTIONS[0]);
   const [showRequestDocs, setShowRequestDocs] = useState(false);
+  const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
 
   const application = applications.find((a) => a.id === id);
 
@@ -68,6 +104,8 @@ export default function ReviewWorkspacePage({ params }: { params: Promise<{ id: 
       </BackOfficeShell>
     );
   }
+
+  const activeDoc = application.documents.find((d) => d.id === selectedDocId) ?? application.documents[0];
 
   const actor = ROLE_LABELS[role];
   const canAct = STAGE_FOR_ROLE[role] === application.status;
@@ -141,25 +179,32 @@ export default function ReviewWorkspacePage({ params }: { params: Promise<{ id: 
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[320px_1fr_340px]">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[380px_1fr_340px]">
           {/* Document viewer */}
           <Card>
             <CardHeader>
               <CardTitle className="text-sm">All Documents</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="flex flex-col items-center justify-center gap-2 rounded-md border border-dashed border-gray-300 bg-gray-50 p-6 text-center">
-                <FileWarning className="h-6 w-6 text-red-400" />
-                <p className="text-xs font-medium text-red-500">
-                  Unable to load the Documents
-                  <br />
-                  Please download to review it.
+              {activeDoc ? (
+                <DocumentPreview doc={activeDoc} application={application} />
+              ) : (
+                <p className="rounded-md border border-dashed border-gray-300 bg-gray-50 p-6 text-center text-xs text-gray-400">
+                  No documents uploaded.
                 </p>
-              </div>
+              )}
               <ul className="space-y-2">
                 {application.documents.map((doc) => (
-                  <li key={doc.id} className="flex items-center justify-between rounded-md border border-gray-200 p-2.5">
-                    <div className="flex items-center gap-2 overflow-hidden">
+                  <li
+                    key={doc.id}
+                    className={`flex items-center justify-between rounded-md border p-2.5 ${
+                      activeDoc?.id === doc.id ? "border-vfs-orange bg-orange-50" : "border-gray-200"
+                    }`}
+                  >
+                    <button
+                      onClick={() => setSelectedDocId(doc.id)}
+                      className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden text-left"
+                    >
                       <FileText className="h-4 w-4 shrink-0 text-gray-400" />
                       <div className="min-w-0">
                         <p className="truncate text-xs font-medium text-gray-800">{doc.fileName}</p>
@@ -167,14 +212,14 @@ export default function ReviewWorkspacePage({ params }: { params: Promise<{ id: 
                           {doc.type} &middot; {doc.sizeKb} KB
                         </p>
                       </div>
-                    </div>
+                    </button>
                     <button
                       onClick={() => {
                         const url = doc.storagePath ? getDocumentPublicUrl(doc.storagePath) : null;
                         if (url) window.open(url, "_blank");
                         else downloadPlaceholder(doc.fileName);
                       }}
-                      className="text-gray-400 hover:text-vfs-orange"
+                      className="ml-2 shrink-0 text-gray-400 hover:text-vfs-orange"
                     >
                       <Download className="h-4 w-4" />
                     </button>

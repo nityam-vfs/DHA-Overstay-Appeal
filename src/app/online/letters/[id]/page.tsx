@@ -34,7 +34,18 @@ export default function LetterPage({ params }: { params: Promise<{ id: string }>
         </Button>
       </div>
 
-      <div className="mx-auto max-w-3xl bg-white p-12 shadow-sm">
+      <div className="relative mx-auto max-w-3xl overflow-hidden bg-white p-12 shadow-sm">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-10 flex flex-wrap content-around items-center justify-center gap-8 overflow-hidden opacity-20"
+        >
+          {Array.from({ length: 12 }).map((_, i) => (
+            <p key={i} className="rotate-[-30deg] whitespace-nowrap text-lg font-bold text-red-600">
+              THIS IS NOT A VALID DOCUMENT! THIS APPLICATION IS FOR TESTING ONLY!
+            </p>
+          ))}
+        </div>
+
         <div className="mb-8 flex items-center justify-between border-b border-gray-800 pb-4">
           <div className="flex items-center gap-3">
             <SaFlagMark />

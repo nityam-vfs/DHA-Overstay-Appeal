@@ -91,11 +91,6 @@ export default function DocumentsStep() {
         <Card>
           <CardContent className="space-y-6 p-6">
             <h1 className="text-2xl font-semibold text-gray-900">Document Upload</h1>
-            {isSupabaseConfigured() && (
-              <p className="rounded-md bg-blue-50 p-2 text-xs text-blue-700">
-                Documents are uploaded to Supabase Storage in real time.
-              </p>
-            )}
 
             <div>
               <Label>
