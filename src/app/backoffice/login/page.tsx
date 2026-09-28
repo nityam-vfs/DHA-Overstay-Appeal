@@ -12,6 +12,7 @@ import {
   UserCog,
   Landmark,
   Crown,
+  Stamp,
   Settings2,
 } from "lucide-react";
 
@@ -21,7 +22,8 @@ const ROLE_CARDS: { role: Role; description: string; icon: React.ElementType }[]
   { role: "supervisor", description: "Review the adjudicator's recommendation and approve or reject.", icon: ShieldCheck },
   { role: "deputy_director", description: "Review application and approve or reject.", icon: UserCog },
   { role: "director", description: "Review application and approve or reject.", icon: Landmark },
-  { role: "chief_director", description: "Final approval, rejection and decision letter generation.", icon: Crown },
+  { role: "chief_director", description: "Review application and recommend approval or rejection.", icon: Crown },
+  { role: "v_list", description: "Final approval, rejection and decision letter generation.", icon: Stamp },
   { role: "admin", description: "View all applications, dashboards, manage users and fees.", icon: Settings2 },
 ];
 

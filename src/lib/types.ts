@@ -6,6 +6,7 @@ export type Role =
   | "deputy_director"
   | "director"
   | "chief_director"
+  | "v_list"
   | "admin";
 
 export const ROLE_LABELS: Record<Role, string> = {
@@ -16,6 +17,7 @@ export const ROLE_LABELS: Record<Role, string> = {
   deputy_director: "Deputy Director",
   director: "Director",
   chief_director: "Chief Director",
+  v_list: "V-List",
   admin: "VFS Admin",
 };
 
@@ -28,6 +30,7 @@ export type ApplicationStatus =
   | "Deputy Director Review"
   | "Director Review"
   | "Chief Director Review"
+  | "V-List Review"
   | "Pending Applicant Action"
   | "Approved"
   | "Rejected"
@@ -41,14 +44,14 @@ export const STATUS_FLOW: ApplicationStatus[] = [
   "Deputy Director Review",
   "Director Review",
   "Chief Director Review",
+  "V-List Review",
 ];
 
 export const APPEAL_REASONS = [
-  "Humanitarian Grounds",
-  "Medical Emergency",
-  "Administrative Error",
-  "Family Circumstances",
-  "Other",
+  "Medical Reasons",
+  "Oversight",
+  "Study",
+  "Ban Served/Lapsed",
 ] as const;
 
 export type AppealReason = (typeof APPEAL_REASONS)[number];

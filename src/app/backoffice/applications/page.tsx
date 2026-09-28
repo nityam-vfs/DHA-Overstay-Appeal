@@ -21,6 +21,7 @@ const ALL_STATUSES: (ApplicationStatus | "All")[] = [
   "Deputy Director Review",
   "Director Review",
   "Chief Director Review",
+  "V-List Review",
   "Pending Applicant Action",
   "Approved",
   "Rejected",

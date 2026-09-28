@@ -34,6 +34,8 @@ export default function QueuePage() {
         return applications.filter((a) => a.status === "Director Review");
       case "chief_director":
         return applications.filter((a) => a.status === "Chief Director Review");
+      case "v_list":
+        return applications.filter((a) => a.status === "V-List Review");
       default:
         return applications;
     }
@@ -51,7 +53,7 @@ export default function QueuePage() {
   }, [queue, search]);
 
   const activeTotal = applications.filter((a) =>
-    ["Submitted", "Assigned", "Adjudicator Review", "Supervisor Review", "Deputy Director Review", "Director Review", "Chief Director Review"].includes(a.status),
+    ["Submitted", "Assigned", "Adjudicator Review", "Supervisor Review", "Deputy Director Review", "Director Review", "Chief Director Review", "V-List Review"].includes(a.status),
   ).length;
   const completedTotal = applications.filter((a) => a.status === "Approved" || a.status === "Rejected" || a.status === "Closed").length;
 

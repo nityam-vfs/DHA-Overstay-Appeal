@@ -20,7 +20,7 @@ create table if not exists public.users (
   full_name text not null,
   role text not null check (role in (
     'applicant', 'assigner', 'adjudicator', 'supervisor',
-    'deputy_director', 'director', 'chief_director', 'admin'
+    'deputy_director', 'director', 'chief_director', 'v_list', 'admin'
   )),
   created_at timestamptz not null default now()
 );
@@ -33,7 +33,7 @@ create table if not exists public.applications (
   ref_number text unique not null,
   status text not null default 'Submitted' check (status in (
     'Draft', 'Submitted', 'Assigned', 'Adjudicator Review', 'Supervisor Review',
-    'Deputy Director Review', 'Director Review', 'Chief Director Review',
+    'Deputy Director Review', 'Director Review', 'Chief Director Review', 'V-List Review',
     'Pending Applicant Action', 'Approved', 'Rejected', 'Closed'
   )),
   created_at timestamptz not null default now(),

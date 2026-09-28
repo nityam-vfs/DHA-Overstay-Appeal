@@ -32,7 +32,7 @@ export default function ApplicantDashboardPage() {
   const counts = {
     Submitted: applications.filter((a) => a.status === "Submitted").length,
     "Under Review": applications.filter((a) =>
-      ["Assigned", "Adjudicator Review", "Supervisor Review", "Deputy Director Review", "Director Review", "Chief Director Review"].includes(a.status),
+      ["Assigned", "Adjudicator Review", "Supervisor Review", "Deputy Director Review", "Director Review", "Chief Director Review", "V-List Review"].includes(a.status),
     ).length,
     "Pending Documents": applications.filter((a) => a.status === "Pending Applicant Action").length,
     Approved: applications.filter((a) => a.status === "Approved").length,

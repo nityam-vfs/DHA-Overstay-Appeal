@@ -10,6 +10,7 @@ const STATUS_VARIANT: Record<ApplicationStatus, "default" | "secondary" | "succe
   "Deputy Director Review": "orange",
   "Director Review": "orange",
   "Chief Director Review": "orange",
+  "V-List Review": "orange",
   "Pending Applicant Action": "warning",
   Approved: "success",
   Rejected: "destructive",

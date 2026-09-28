@@ -36,6 +36,7 @@ const DEMO_USERS: { name: string; email: string; role: Role }[] = [
   { name: "S. van Wyk", email: "deputydirector@dha.gov.za", role: "deputy_director" },
   { name: "P. Mokoena", email: "director@dha.gov.za", role: "director" },
   { name: "Zanele Dlamini", email: "chiefdirector@dha.gov.za", role: "chief_director" },
+  { name: "B. Khumalo", email: "vlist@dha.gov.za", role: "v_list" },
   { name: "Admin User", email: "admin@vfsglobal.com", role: "admin" },
 ];
 

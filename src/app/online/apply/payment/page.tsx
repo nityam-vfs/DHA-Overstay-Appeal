@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useWizardStore } from "@/lib/wizard-store";
 import { useDemoStore } from "@/lib/store";
 import { formatZar } from "@/lib/utils";
+import { APPEAL_REASONS } from "@/lib/types";
 import { CheckCircle2, Loader2 } from "lucide-react";
 
 export default function PaymentStep() {
@@ -32,7 +33,7 @@ export default function PaymentStep() {
         form19Reference: w.form19Reference,
         overstayReference: w.overstayReference,
         dateOfOverstay: w.dateOfOverstay,
-        appealReason: w.appealReason || "Other",
+        appealReason: w.appealReason || APPEAL_REASONS[0],
         appealReasonOther: w.appealReasonOther,
         signatureName: w.signatureName,
         documents: [

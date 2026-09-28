@@ -22,6 +22,7 @@ const STAGE_FOR_ROLE: Partial<Record<Role, string>> = {
   deputy_director: "Deputy Director Review",
   director: "Director Review",
   chief_director: "Chief Director Review",
+  v_list: "V-List Review",
 };
 
 const MISSING_DOC_OPTIONS = [
@@ -110,7 +111,7 @@ export default function ReviewWorkspacePage({ params }: { params: Promise<{ id: 
   const actor = ROLE_LABELS[role];
   const canAct = STAGE_FOR_ROLE[role] === application.status;
   const isAdjudicator = role === "adjudicator";
-  const isFinal = role === "chief_director";
+  const isFinal = role === "v_list";
   const approveLabel = isFinal ? "Final Approve" : isAdjudicator ? "Recommend Approval" : "Approve";
   const rejectLabel = isFinal ? "Final Reject" : isAdjudicator ? "Recommend Rejection" : "Reject";
 
@@ -241,11 +242,9 @@ export default function ReviewWorkspacePage({ params }: { params: Promise<{ id: 
               <Field label="Port of Exit" value={application.portOfExit} />
               <Field label="Form 19 Reference" value={application.form19Reference} />
               <Field label="Overstay Reference" value={application.overstayReference} />
-              <Field label="Date of Overstay" value={formatDate(application.dateOfOverstay)} />
+              <Field label="Date of Port of Exit" value={formatDate(application.dateOfOverstay)} />
               <Field label="Appeal Reason" value={application.appealReason} />
-              {application.appealReason === "Other" && (
-                <Field label="Reason Details" value={application.appealReasonOther ?? "—"} />
-              )}
+              <Field label="Reason Details" value={application.appealReasonOther ?? "—"} />
               <Field label="Assigned To" value={application.assignedTo ?? "Unassigned"} />
               <Field label="Service Fee" value={formatZar(application.serviceFee)} />
               <Field label="Payment Status" value={application.paymentStatus} />

@@ -15,6 +15,7 @@ const STAFF_ROLES: Role[] = [
   "deputy_director",
   "director",
   "chief_director",
+  "v_list",
   "admin",
 ];
 

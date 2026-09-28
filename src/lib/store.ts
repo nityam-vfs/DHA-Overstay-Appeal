@@ -255,7 +255,7 @@ export const useDemoStore = create<DemoState>()(
               updated.comments.push(commentEntry);
               void dbInsertComment(commentEntry);
             }
-            const isLastStage = a.status === "Chief Director Review";
+            const isLastStage = a.status === "V-List Review";
             if (isLastStage) {
               const historyEntry = pushHistory(updated, "Approved", actor, role, comment || "Approved");
               void dbInsertHistory(historyEntry);
@@ -340,7 +340,7 @@ export const useDemoStore = create<DemoState>()(
       },
 
       finalApprove: (id, comment, actor) => {
-        get().advanceApplication(id, comment, actor, "chief_director");
+        get().advanceApplication(id, comment, actor, "v_list");
       },
 
       requestDocuments: (id, missingDocumentType, comment, actor, role) => {
@@ -437,6 +437,8 @@ export const useDemoStore = create<DemoState>()(
             return apps.filter((a) => a.status === "Director Review");
           case "chief_director":
             return apps.filter((a) => a.status === "Chief Director Review");
+          case "v_list":
+            return apps.filter((a) => a.status === "V-List Review");
           default:
             return apps;
         }

@@ -76,7 +76,7 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
                 <Field label="Nationality" value={application.nationality} />
                 <Field label="Port of Exit" value={application.portOfExit} />
                 <Field label="Overstay Reference" value={application.overstayReference} />
-                <Field label="Date of Overstay" value={formatDate(application.dateOfOverstay)} />
+                <Field label="Date of Port of Exit" value={formatDate(application.dateOfOverstay)} />
                 <Field label="Appeal Reason" value={application.appealReason} />
                 <Field label="Service Fee" value={`${formatZar(application.serviceFee)} (${application.paymentStatus})`} />
               </CardContent>

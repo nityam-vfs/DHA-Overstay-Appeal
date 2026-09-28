@@ -20,7 +20,7 @@ export default function AppealDetailsStep() {
     w.overstayReference &&
     w.dateOfOverstay &&
     w.appealReason &&
-    (w.appealReason !== "Other" || w.appealReasonOther.trim().length > 0);
+    w.appealReasonOther.trim().length > 0;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -40,7 +40,7 @@ export default function AppealDetailsStep() {
               </div>
               <div>
                 <Label>
-                  Date of Overstay <span className="text-red-500">*</span>
+                  Date of Port of Exit <span className="text-red-500">*</span>
                 </Label>
                 <Input type="date" value={w.dateOfOverstay} onChange={(e) => w.update({ dateOfOverstay: e.target.value })} />
               </div>
@@ -60,7 +60,7 @@ export default function AppealDetailsStep() {
                   ))}
                 </Select>
               </div>
-              {w.appealReason === "Other" && (
+              {w.appealReason && (
                 <div className="sm:col-span-2">
                   <Label>
                     Please describe your reason <span className="text-red-500">*</span>

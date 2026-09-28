@@ -24,7 +24,7 @@ data stored in your browser's localStorage — no Supabase account is required.
   via the 6-step wizard (eligibility → appeal details → documents → declaration →
   payment → confirmation).
 - **Back Office**: pick any role card (Assigner, Adjudicator, Supervisor, Deputy
-  Director, Director, Chief Director, Admin) — no password needed — to view that
+  Director, Director, Chief Director, V-List, Admin) — no password needed — to view that
   role's queue, review applications, and progress them through the workflow.
 
 ## Optional: connecting real Supabase

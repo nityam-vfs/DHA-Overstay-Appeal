@@ -103,7 +103,7 @@ export default function LetterPage({ params }: { params: Promise<{ id: string }>
         )}
 
         <div className="mt-10">
-          <p className="text-sm font-semibold text-gray-900">Chief Director: Immigration Services</p>
+          <p className="text-sm font-semibold text-gray-900">V-List: Immigration Services</p>
           <p className="text-xs text-gray-500">Department of Home Affairs</p>
         </div>
 

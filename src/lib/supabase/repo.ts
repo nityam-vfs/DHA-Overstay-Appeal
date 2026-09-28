@@ -10,6 +10,7 @@ import type {
   Role,
   StatusHistoryEntry,
 } from "../types";
+import { APPEAL_REASONS } from "../types";
 
 const APPLICATION_SELECT = `
   *,
@@ -159,7 +160,7 @@ function mapApplication(row: ApplicationRow): Application {
     form19Reference: row.form19_reference ?? "",
     overstayReference: row.overstay_reference ?? "",
     dateOfOverstay: row.date_of_overstay ?? "",
-    appealReason: row.appeal_reason ?? "Other",
+    appealReason: row.appeal_reason ?? APPEAL_REASONS[0],
     appealReasonOther: row.appeal_reason_other ?? undefined,
     declarationSigned: row.declaration_signed,
     signatureName: row.signature_name ?? undefined,

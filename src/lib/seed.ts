@@ -110,6 +110,7 @@ function statusPath(finalStatus: ApplicationStatus): ApplicationStatus[] {
     "Deputy Director Review",
     "Director Review",
     "Chief Director Review",
+    "V-List Review",
   ];
   if (finalStatus === "Approved" || finalStatus === "Rejected" || finalStatus === "Closed") {
     return [...order, finalStatus];
@@ -130,6 +131,7 @@ const STATUS_WEIGHTS: [ApplicationStatus, number][] = [
   ["Deputy Director Review", 4],
   ["Director Review", 3],
   ["Chief Director Review", 3],
+  ["V-List Review", 2],
   ["Pending Applicant Action", 6],
   ["Approved", 12],
   ["Rejected", 7],
@@ -156,6 +158,12 @@ function buildApplication(index: number, forceEmail?: string, forceStatus?: Appl
   const history = buildHistory(id, createdAt, statusPath(status));
   const updatedAt = history[history.length - 1]?.createdAt ?? createdAt;
   const reason = pick(APPEAL_REASONS);
+  const reasonDetails: Record<(typeof APPEAL_REASONS)[number], string> = {
+    "Medical Reasons": "Applicant was hospitalised and unable to depart before the visa expiry date.",
+    Oversight: "Applicant miscalculated the permitted stay period and overstayed unintentionally.",
+    Study: "Applicant remained to complete an academic term and did not extend the visa in time.",
+    "Ban Served/Lapsed": "Applicant's prior travel ban has since been served or has lapsed.",
+  };
 
   const comments: CommentEntry[] = [];
   if (["Adjudicator Review", "Supervisor Review", "Director Review", "Approved", "Rejected"].includes(status) && rand() > 0.3) {
@@ -196,7 +204,7 @@ function buildApplication(index: number, forceEmail?: string, forceStatus?: Appl
     overstayReference: `OVR-${randInt(10000, 99999)}`,
     dateOfOverstay: randomDateWithinDays(180),
     appealReason: reason,
-    appealReasonOther: reason === "Other" ? "Delayed flight caused unavoidable overstay." : undefined,
+    appealReasonOther: reasonDetails[reason],
     declarationSigned: status !== "Draft",
     signatureName: status !== "Draft" ? `${name} ${surname}` : undefined,
     paymentStatus: status === "Draft" ? "Pending" : "Paid",
@@ -219,6 +227,7 @@ export function generateSeedApplications(): Application[] {
     "Adjudicator Review",
     "Pending Applicant Action",
     "Chief Director Review",
+    "V-List Review",
     "Approved",
     "Rejected",
   ];
